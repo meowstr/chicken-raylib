@@ -8,12 +8,11 @@
 
 (foreign-declare "#include <raylib.h>")
 
-#>
-Color ToColor (unsigned char * x) {return (Color){x[0], x[1], x[2], x[3]};}
-Rectangle ToRectangle (float * x) {return (Rectangle){x[0], x[1], x[2], x[3]};}
-Vector2 ToVector2 (float * x) {return (Vector2){x[0], x[1]};}
-void FromVector2 (float * x, Vector2 v) {x[0]=v.x; x[1]=v.y;}
-<#
+(foreign-declare
+ "Color ToColor (unsigned char *x) { return (Color) {x[0], x[1], x[2], x[3]}; }
+  Rectangle ToRectangle (float *x) { return (Rectangle) {x[0], x[1], x[2], x[3]}; }
+  Vector2 ToVector2 (float *x) { return (Vector2) {x[0], x[1]}; }
+  void FromVector2 (float *x, Vector2 v) { x[0]=v.x; x[1]=v.y; }")
 
 (define-foreign-type Color u8vector)
 (define (make-color r g b a)
