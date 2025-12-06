@@ -12,7 +12,9 @@
  "Color ToColor (unsigned char *x) { return (Color) {x[0], x[1], x[2], x[3]}; }
   Rectangle ToRectangle (float *x) { return (Rectangle) {x[0], x[1], x[2], x[3]}; }
   Vector2 ToVector2 (float *x) { return (Vector2) {x[0], x[1]}; }
-  void FromVector2 (float *x, Vector2 v) { x[0]=v.x; x[1]=v.y; }")
+  void FromVector2 (float *x, Vector2 v) { x[0]=v.x; x[1]=v.y; }
+  Vector3 ToVector3 (float *x) { return (Vector3) {x[0], x[1], x[2]}; }
+  void FromVector3 (float *x, Vector3 v) { x[0]=v.x; x[1]=v.y; x[2]=v.z; }")
 
 (define-foreign-type Color u8vector)
 (define (make-color r g b a)
@@ -69,6 +71,37 @@
   (let ([out (make-vec2 0 0)])
     (camera2d-target-helper out camera)
     out))
+
+(define-foreign-record-type (Camera3D* "struct Camera3D")
+  (constructor: make-camera3d)
+  (destructor: free-camera3d)
+  (float fovy camera3d-fovy camera3d-fovy-set!)
+  (int projection camera3d-projection camera3d-projection-set!))
+(define camera3d-position-helper
+  (foreign-lambda* void ((Vector3 out) (Camera3D* camera)) "FromVector3(out, camera->position);"))
+(define camera3d-target-helper
+  (foreign-lambda* void ((Vector3 out) (Camera3D* camera)) "FromVector3(out, camera->target);"))
+(define camera3d-up-helper
+  (foreign-lambda* void ((Vector3 out) (Camera3D* camera)) "FromVector3(out, camera->up);"))
+(define camera3d-position-set!
+  (foreign-lambda* void ((Camera3D* camera) (Vector3 v)) "camera->position = ToVector3(v);"))
+(define camera3d-target-set!
+  (foreign-lambda* void ((Camera3D* camera) (Vector3 v)) "camera->target = ToVector3(v);"))
+(define camera3d-up-set!
+  (foreign-lambda* void ((Camera3D* camera) (Vector3 v)) "camera->up = ToVector3(v);"))
+(define (camera3d-position camera)
+  (let ([out (make-vec3 0 0 0)])
+    (camera3d-position-helper out camera)
+    out))
+(define (camera3d-target camera)
+  (let ([out (make-vec3 0 0 0)])
+    (camera3d-position-helper out camera)
+    out))
+(define (camera3d-up camera)
+  (let ([out (make-vec3 0 0 0)])
+    (camera3d-position-helper out camera)
+    out))
+
 
 (define LIGHTGRAY  (make-color 200 200 200 255))
 (define GRAY       (make-color 130 130 130 255))
@@ -238,6 +271,9 @@
 (define begin-mode-2d 
   (foreign-lambda* void ((Camera2D* camera)) "BeginMode2D(*camera);"))
 (define end-mode-2d (foreign-lambda void "EndMode2D"))
+(define begin-mode-3d
+  (foreign-lambda* void ((Camera3D* camera)) "BeginMode3D(*camera);"))
+(define end-mode-3d (foreign-lambda void "EndMode3D"))
 (define clear-background 
   (foreign-lambda* void ((Color c)) "ClearBackground(ToColor(c));"))
 
@@ -379,5 +415,7 @@
 (%define-wrappers with-drawing begin-drawing end-drawing)
 
 (%define-wrappers with-mode-2d begin-mode-2d end-mode-2d camera)
+
+(%define-wrappers with-mode-3d begin-mode-3d end-mode-3d camera)
 
 ) ;; end of module
