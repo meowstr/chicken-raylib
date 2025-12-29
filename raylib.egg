@@ -1,10 +1,9 @@
 ((author "Meowster")
  (synopsis "Bindings for raylib: A simple and easy-to-use library to enjoy videogames programming")
- (version "1.0.1")
+ (version "1.1.1")
  (license "MIT")
  (category graphics)
- (dependencies (chicken "5.3.0")
-               foreigners)
- (component-options 
-   (link-options "-L" "-lraylib"))
- (components (extension raylib)))
+ (dependencies foreigners)
+ (components
+   (extension raylib
+     (custom-build "build.sh"))))
