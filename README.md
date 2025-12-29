@@ -4,12 +4,12 @@ This is the official repository for the `raylib` egg! Refer to the egg's wiki fo
 https://wiki.call-cc.org/eggref/5/raylib
 
 ## Install
-Step 1: Install raylib https://github.com/raysan5/raylib 
+Step 1: Install [raylib](https://github.com/raysan5/raylib) as a shared library on your system. See [install-raylib.sh](install-raylib.sh) for guidance. 
 
 Step 2:
 ```chicken-install -sudo raylib```
 
-_NOTE: the egg is linked to raylib with the `-lraylib` link flag, so be sure the raylib library (static or dynamic) is available on your system._
+_NOTE: the egg searches for raylib using `pkg-config --libs raylib`, so be sure the raylib library (in its .so/.dll form) is available on your system._
 
 ## Example
 ```scheme
@@ -37,7 +37,7 @@ _NOTE: the egg is linked to raylib with the `-lraylib` link flag, so be sure the
 ## TODO
 - [ ] Bind all the declarations in raylib.h
 - [ ] Add more idiomatic wrappers
-- [ ] Improve installation process (search for raylib properly and perhaps install raylib locally for the user)
+- [x] Improve installation process (search for raylib properly and perhaps install raylib locally for the user)
 - [ ] Add more examples
 - [ ] Benchmark and investigate performance bottlenecks
 
