@@ -390,6 +390,34 @@
   (foreign-lambda* void ((Texture* texture) (Rectangle source) (Rectangle dest) (Vector2 origin) (float rotation) (Color tint)) 
                    "DrawTexturePro(*texture, ToRectangle(source), ToRectangle(dest), ToVector2(origin), rotation, ToColor(tint));"))
 
+(define-foreign-record-type (Image "struct Image")
+  (constructor: make-image)
+  (destructor: free-image)
+  (void *data image-data)
+  (int width image-width)
+  (int height image-height)
+  (int mipmaps image-mipmaps)
+  (int format image-format))
+
+(define-foreign-record-type (GlyphInfo* "struct GlyphInfo")
+  (constructor: make-glyphinfo)
+  (destructor: free-glyphinfo)
+  (int value glyphinfo-value)
+  (int offsetX glyphinfo-offset-x)
+  (int offsetY glyphinfo-offset-y)
+  (int advanceX glyphinfo-advance-x)
+  (Image image glyphinfo-image))
+
+(define-foreign-record-type (Font* "struct Font")
+  (constructor: make-font)
+  (destructor: free-font)
+  (int baseSize font-base-size)
+  (int glyphCount font-glyph-count)
+  (int glyphPadding font-glyph-padding)
+  (Texture* texture font-texture) ;; Texture2d
+  (Rectangle* recs font-recs)
+  (GlyphInfo* glyphs font-glyphs))
+
 ;; Text drawing functions
 (define draw-text 
   (foreign-lambda* 
@@ -397,6 +425,9 @@
     "DrawText(text, posX, posY, fontSize, ToColor(c));"))
 
 (define measure-text (foreign-lambda int "MeasureText" c-string int))
+(define measure-text-ex (foreign-lambda Vector2 "MeasureTextEx" Font c-string float float))
+
+;; Vector2 MeasureTextEx(Font font, const char *text, float fontSize, float spacing); 
 
 ;; Scheme wrappers not present in original API
 
