@@ -390,10 +390,10 @@
   (foreign-lambda* void ((Texture* texture) (Rectangle source) (Rectangle dest) (Vector2 origin) (float rotation) (Color tint)) 
                    "DrawTexturePro(*texture, ToRectangle(source), ToRectangle(dest), ToVector2(origin), rotation, ToColor(tint));"))
 
-(define-foreign-record-type (Image "struct Image")
+(define-foreign-record-type (Image* "struct Image")
   (constructor: make-image)
   (destructor: free-image)
-  (void *data image-data)
+  ;(void data image-data)
   (int width image-width)
   (int height image-height)
   (int mipmaps image-mipmaps)
@@ -406,7 +406,8 @@
   (int offsetX glyphinfo-offset-x)
   (int offsetY glyphinfo-offset-y)
   (int advanceX glyphinfo-advance-x)
-  (Image image glyphinfo-image))
+  ;(Image* image glyphinfo-image)
+  )
 
 (define-foreign-record-type (Font* "struct Font")
   (constructor: make-font)
@@ -414,18 +415,26 @@
   (int baseSize font-base-size)
   (int glyphCount font-glyph-count)
   (int glyphPadding font-glyph-padding)
-  (Texture* texture font-texture) ;; Texture2d
-  (Rectangle* recs font-recs)
-  (GlyphInfo* glyphs font-glyphs))
+  ;(Texture* texture font-texture) ;; Texture2d
+  ;(Rectangle* recs font-recs)
+  (GlyphInfo* glyphs font-glyphs)
+  )
 
 ;; Text drawing functions
 (define draw-text 
-  (foreign-lambda* 
-    void ((c-string text) (int posX) (int posY) (int fontSize) (Color c)) 
+  (foreign-lambda*
+    void ((c-string text) (int posX) (int posY) (int fontSize) (Color c))
     "DrawText(text, posX, posY, fontSize, ToColor(c));"))
 
 (define measure-text (foreign-lambda int "MeasureText" c-string int))
-(define measure-text-ex (foreign-lambda Vector2 "MeasureTextEx" Font c-string float float))
+(define measure-text-ex-helper
+  (foreign-lambda* void ((Vector2 out) (Font* font) (c-string text) (float fontSize) (float spacing))
+    "FromVector2(out, MeasureTextEx(*font, text, fontSize, spacing));"))
+
+(define (measure-text-ex font text fontSize spacing)
+  (let ([out (make-vec2 0 0)])
+    (measure-text-ex-helper out font text fontSize spacing)
+    out))
 
 ;; Vector2 MeasureTextEx(Font font, const char *text, float fontSize, float spacing); 
 
