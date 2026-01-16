@@ -452,7 +452,7 @@ void FromVector3(float * x, Vector3 v) { x[0]=v.x; x[1]=v.y; x[2]=v.z; }
   (let ([out (make-vec2 0 0)]) (measure-text-ex-helper out font text fontSize spacing) out))
 
 (define load-font-ex
-  (foreign-lambda* void ((c-string fileName)(int fontSize)(int codepoints)(int codepointCount)) "LoadFontEx(fileName, fontSize, codepoints, codepointCount);")) 
+  (foreign-lambda* void ((c-string fileName)(int fontSize)(s32vector codepoints)(int codepointCount)) "LoadFontEx(fileName, fontSize, codepoints, codepointCount);"))
 
 ;; Scheme wrappers not present in original API
 
