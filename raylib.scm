@@ -443,6 +443,17 @@ void FromVector3(float * x, Vector3 v) { x[0]=v.x; x[1]=v.y; x[2]=v.z; }
     void ((c-string text) (int posX) (int posY) (int fontSize) (Color c))
     "DrawText(text, posX, posY, fontSize, ToColor(c));"))
 
+(define draw-text-ex 
+  (foreign-lambda*
+    void ((Font* font) (c-string text) (Vector2 position) (float fontSize) (float spacing) (Color tint))
+    "DrawTextEx(*font, text, ToVector2(position), fontSize, spacing, ToColor(tint));"))
+
+;; RLAPI void DrawTextPro(Font font, const char *text, Vector2 position, Vector2 origin, float rotation, float fontSize, float spacing, Color tint); // Draw text using Font and pro parameters (rotation)
+(define draw-text-pro 
+  (foreign-lambda*
+    void ((Font* font) (c-string text) (Vector2 position) (Vector2 origin) (float rotation) (float fontSize) (float spacing) (Color c))
+    "DrawTextPro(*font, text, ToVector2(position), ToVector2(origin), rotation, fontSize, spacing, ToColor(c));"))
+
 (define measure-text (foreign-lambda int "MeasureText" c-string int))
 (define measure-text-ex-helper
   (foreign-lambda* void ((Vector2 out) (Font* font) (c-string text) (float fontSize) (float spacing))
@@ -454,6 +465,10 @@ void FromVector3(float * x, Vector3 v) { x[0]=v.x; x[1]=v.y; x[2]=v.z; }
 (define load-font-ex
   (foreign-lambda* void ((c-string fileName)(int fontSize)(s32vector codepoints)(int codepointCount)) "LoadFontEx(fileName, fontSize, codepoints, codepointCount);"))
 
+(define is-font-valid? (foreign-lambda* bool ((Font* font)) "IsFontValid(*font);"))
+
+
+					       
 ;; Scheme wrappers not present in original API
 
 (define-syntax %define-wrappers
