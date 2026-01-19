@@ -1,0 +1,37 @@
+(module text-font-loading *
+
+(import scheme
+	chicken.base
+	raylib)
+
+(init-window 800 450 "raylib [core] example - font loading")
+
+(define msg "!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHI\nJKLMNOPQRSTUVWXYZ[]^_`abcdefghijklmn\nopqrstuvwxyz{|}~¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓ\nÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷\nøùúûüýþÿ")
+
+(define font-bm  (load-font "resources/pixantiqua.fnt"))
+(define font-ttf (load-font- ex "resources/pixantiqua.ttf" 32 0 250))
+
+(set-line-spacing 16)
+
+(set-target-fps 60)
+
+(let loop ()
+  (let ((use-ttf (is-key-down? KEY-SPACE)))
+    (with-drawing
+     (lambda ()
+       (clear-background RAYWHITE)
+       (draw-text "Hold SPACE to use TTF generated font" 20 20 20 LIGHTGREY)
+       (let ((font   (if use-ttf font-bm font-ttf))
+	     (color  (if use-ttf MAROON LIME)))
+       (draw-text-ex fnt msg (vector2 20.0 100.0)(font-base-size fnt) 2 color)
+       (draw-text (if use-ttf
+		      "Using BMFfont (Anglecode) imported"
+		      "Using TTF font generated")
+		  20 (get-screen-height) 30 20 GRAY))))
+    (unless (window-should-close?)
+      (loop))))
+
+(unload-font font-bm)
+(unload-font font-ttf)
+(close-window)
+)
