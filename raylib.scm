@@ -454,6 +454,7 @@ void FromVector3(float * x, Vector3 v) { x[0]=v.x; x[1]=v.y; x[2]=v.z; }
     void ((Font* font) (c-string text) (Vector2 position) (Vector2 origin) (float rotation) (float fontSize) (float spacing) (Color c))
     "DrawTextPro(*font, text, ToVector2(position), ToVector2(origin), rotation, fontSize, spacing, ToColor(c));"))
 
+(define set-text-line-spacing (foreign-lambda void "SetTextLineSpacing" int))
 (define measure-text (foreign-lambda int "MeasureText" c-string int))
 (define measure-text-ex-helper
   (foreign-lambda* void ((Vector2 out) (Font* font) (c-string text) (float fontSize) (float spacing))
@@ -475,6 +476,8 @@ void FromVector3(float * x, Vector3 v) { x[0]=v.x; x[1]=v.y; x[2]=v.z; }
   (let ([out (make-font)])
     (load-font-helper out filename)
     out))
+(define unload-font
+  (foreign-lambda* void ((Font* font)) "UnloadFont(*font);"))
 
 (define is-font-valid? (foreign-lambda* bool ((Font* font)) "C_return(IsFontValid(*font));"))
 
