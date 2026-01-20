@@ -12,6 +12,10 @@
 ;; (define font-ttf (load-font-ex "resources/pixantiqua.ttf" 32 0 250))
 (define font-ttf (load-font "resources/pixantiqua.ttf")) 
 
+(define font-size (measure-text-ex font-ttf msg (font-base-size font-ttf) 1.0))
+
+(print "Font size: "font-size)
+
 (set-text-line-spacing 16)
 
 (set-target-fps 60)
