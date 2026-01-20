@@ -9,7 +9,8 @@
 (define msg "!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHI\nJKLMNOPQRSTUVWXYZ[]^_`abcdefghijklmn\nopqrstuvwxyz{|}~¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓ\nÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷\nøùúûüýþÿ")
 
 (define font-bm  (load-font "resources/pixantiqua.fnt"))
-(define font-ttf (load-font-ex "resources/pixantiqua.ttf" 32 0 250))
+;; (define font-ttf (load-font-ex "resources/pixantiqua.ttf" 32 0 250))
+(define font-ttf (load-font "resources/pixantiqua.ttf")) 
 
 (set-text-line-spacing 16)
 
@@ -27,7 +28,7 @@
        (draw-text (if use-ttf
 		      "Using BMFfont (Anglecode) imported"
 		      "Using TTF font generated")
-		  20 (get-screen-height) 30 20 GRAY))))
+		  20 (- (get-screen-height) 30) 20 GRAY))))
     (unless (window-should-close?)
       (loop))))
 
