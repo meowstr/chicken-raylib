@@ -1,18 +1,13 @@
 (module text-font-loading *
 
-(import scheme
-	chicken.base
-	srfi-4
-	raylib)
+(import scheme chicken.base srfi-1 srfi-4 raylib)
 
 (init-window 800 450 "raylib [core] example - font loading")
 
 (define msg "!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHI\nJKLMNOPQRSTUVWXYZ[]^_`abcdefghijklmn\nopqrstuvwxyz{|}~¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓ\nÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷\nøùúûüýþÿ")
 
 (define font-bm  (load-font "resources/pixantiqua.fnt"))
-;; (define font-ttf (load-font-ex "resources/pixantiqua.ttf" 32 0 250))
-;; (define font-ttf (load-font "resources/pixantiqua.ttf"))
-(define font-ttf (load-font-ex "resources/pixantiqua.ttf" 32 (s32vector 41 42 43 44) 4))
+(define font-ttf (load-font-ex "resources/pixantiqua.ttf" 32 (list->s32vector (iota 256)) 256))
 
 (define font-size (measure-text-ex font-ttf msg (font-base-size font-ttf) 1.0))
 
