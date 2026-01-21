@@ -442,13 +442,10 @@ void FromVector3(float * x, Vector3 v) { x[0]=v.x; x[1]=v.y; x[2]=v.z; }
   (foreign-lambda*
     void ((c-string text) (int posX) (int posY) (int fontSize) (Color c))
     "DrawText(text, posX, posY, fontSize, ToColor(c));"))
-
 (define draw-text-ex 
   (foreign-lambda*
     void ((Font* font) (c-string text) (Vector2 position) (float fontSize) (float spacing) (Color tint))
     "DrawTextEx(*font, text, ToVector2(position), fontSize, spacing, ToColor(tint));"))
-
-;; RLAPI void DrawTextPro(Font font, const char *text, Vector2 position, Vector2 origin, float rotation, float fontSize, float spacing, Color tint); // Draw text using Font and pro parameters (rotation)
 (define draw-text-pro 
   (foreign-lambda*
     void ((Font* font) (c-string text) (Vector2 position) (Vector2 origin) (float rotation) (float fontSize) (float spacing) (Color c))
@@ -456,6 +453,7 @@ void FromVector3(float * x, Vector3 v) { x[0]=v.x; x[1]=v.y; x[2]=v.z; }
 
 (define set-text-line-spacing (foreign-lambda void "SetTextLineSpacing" int))
 (define measure-text (foreign-lambda int "MeasureText" c-string int))
+
 (define measure-text-ex-helper
   (foreign-lambda* void ((Vector2 out) (Font* font) (c-string text) (float fontSize) (float spacing))
     "FromVector2(out, MeasureTextEx(*font, text, fontSize, spacing));"))
@@ -466,20 +464,18 @@ void FromVector3(float * x, Vector3 v) { x[0]=v.x; x[1]=v.y; x[2]=v.z; }
   (foreign-lambda* void ((Font* font) (c-string fileName) (int fontSize) (s32vector codepoints) (int codepointCount)) 
     "*font = LoadFontEx(fileName, fontSize, codepoints, codepointCount);"))
 (define (load-font-ex filename fontSize codepoints codepointCount)
-  (let ([out (make-font)])
-    (load-font-ex-helper out filename fontSize codepoints codepointCount)
-    out))
+  (let ([out (make-font)]) (load-font-ex-helper out filename fontSize codepoints codepointCount) out))
+
 (define load-font-helper
   (foreign-lambda* void ((Font* font) (c-string fileName)) 
     "*font = LoadFont(fileName);"))
 (define (load-font filename)
-  (let ([out (make-font)])
-    (load-font-helper out filename)
-    out))
+  (let ([out (make-font)]) (load-font-helper out filename) out))
+
 (define unload-font
   (foreign-lambda* void ((Font* font)) "UnloadFont(*font);"))
 
-(define is-font-valid? (foreign-lambda* bool ((Font* font)) "C_return(IsFontValid(*font));"))
+(define font-valid? (foreign-lambda* bool ((Font* font)) "C_return(IsFontValid(*font));"))
 
 
 					       
