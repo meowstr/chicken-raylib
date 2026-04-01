@@ -572,8 +572,57 @@ void FromVector3(float * x, Vector3 v) { x[0]=v.x; x[1]=v.y; x[2]=v.z; }
 ;; (define draw-ray)
 (define draw-grid (foreign-lambda void "DrawGrid" int float))
 
+;; Sound management
 
-					       
+(define init-audio-device
+  (foreign-lambda void "InitAudioDevice"))
+
+(define-foreign-record-type (Wave "struct Wave")
+  (constructor: make-wave)
+  (destructor: free-wave)
+  (unsigned-int frameCount wave-frame-count wave-frame-count-set!)
+  (unsigned-int sampleRate wave-sample-rate wave-sample-rate-set!)
+  (unsigned-int sampleSize wave-sample-size wave-sample-size-set!)
+  (unsigned-int channels wave-channels wave-channels-set!)
+  (c-pointer data wave-data wave-data-set!))
+
+(define-foreign-record-type (Sound "struct Sound")
+  (constructor: make-sound)
+  (destructor: free-sound))
+
+(define load-wave
+  (foreign-lambda* Wave ((c-string filename))
+    "
+    Wave * waveptr = malloc(sizeof(Wave));
+    *waveptr = LoadWave(filename);
+    C_return(waveptr);"))
+
+(define unload-wave
+  (foreign-lambda* void ((Wave wave))
+    "UnloadWave(*wave);"))
+
+(define load-sound-from-wave
+  (foreign-lambda* Sound ((Wave wave))
+    "
+    Sound * soundptr = malloc(sizeof(Sound));
+    *soundptr = LoadSoundFromWave(*wave);
+    C_return(soundptr);"))
+
+(define load-sound
+  (foreign-lambda* Sound ((c-string filepath))
+    "
+    Sound * soundptr = malloc(sizeof(Sound));
+    *soundptr = LoadSound(filepath);
+    C_return(soundptr);"))
+
+(define unload-sound
+  (foreign-lambda* void ((Sound sound))
+  "UnloadSound(*sound);"))
+
+(define play-sound
+  (foreign-lambda* void ((Sound sound))
+  "PlaySound(*sound);"))
+
 ;; Scheme wrappers not present in original API
 
 (define-syntax %define-wrappers
