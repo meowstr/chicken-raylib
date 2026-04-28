@@ -396,6 +396,9 @@ void FromVector3(float * x, Vector3 v) { x[0]=v.x; x[1]=v.y; x[2]=v.z; }
     (load-texture-helper texture filename)
     texture))
 
+(define unload-texture
+  (foreign-lambda* void ((Texture* texture)) "UnloadTexture(*texture);"))
+
 ;; Basic shapes drawing functions
 (define draw-pixel 
   (foreign-lambda* void ((int posX) (int posY) (Color color)) "DrawPixel(posX, posY, ToColor(color));"))
