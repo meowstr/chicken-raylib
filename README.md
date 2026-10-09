@@ -1,4 +1,4 @@
-# raylib 5.5 in CHICKEN Scheme!
+# raylib 6.0 in CHICKEN Scheme!
 
 This is the official repository for the `raylib` egg! Refer to the egg's wiki for documentation:
 https://wiki.call-cc.org/eggref/5/raylib

@@ -1,7 +1,7 @@
 #/bin/sh
 
 ######################################################################
-# Use this to install raylib 5.5 as a shared library on your system. #
+# Use this to install raylib 6.0 as a shared library on your system. #
 ######################################################################
 
 # Make each command visible before it runs
@@ -12,13 +12,13 @@ mkdir raylib-install
 cd raylib-install
 
 # Download source
-curl -L -o src.tar.gz "https://github.com/raysan5/raylib/archive/refs/tags/5.5.tar.gz" 
+curl -L -o src.tar.gz "https://github.com/raysan5/raylib/archive/refs/tags/6.0.tar.gz" 
 
 # Untarball
 tar -xvf src.tar.gz
 
 # Setup a build
-cd "raylib-5.5"
+cd "raylib-6.0"
 mkdir build
 cd build
 
