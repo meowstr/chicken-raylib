@@ -347,6 +347,7 @@ void FromVector3(float * x, Vector3 v) { x[0]=v.x; x[1]=v.y; x[2]=v.z; }
 (define get-screen-height (foreign-lambda int "GetScreenHeight"))
 (define window-should-close? (foreign-lambda bool "WindowShouldClose"))
 (define is-window-resized? (foreign-lambda bool "IsWindowResized"))
+(define set-exit-key (foreign-lambda void "SetExitKey" int))
 
 ;; Drawing-related functions
 (define begin-drawing (foreign-lambda void "BeginDrawing"))
@@ -682,5 +683,7 @@ void FromVector3(float * x, Vector3 v) { x[0]=v.x; x[1]=v.y; x[2]=v.z; }
 (%define-wrappers with-mode-3d begin-mode-3d end-mode-3d camera)
 
 (%define-wrappers with-scissor-mode begin-scissor-mode end-scissor-mode x y w h)
+
+(%define-wrappers with-texture-mode begin-texture-mode end-texture-mode target)
 
 ) ;; end of module
