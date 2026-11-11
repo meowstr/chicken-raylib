@@ -77,6 +77,13 @@ void FromVector3(float * x, Vector3 v) { x[0]=v.x; x[1]=v.y; x[2]=v.z; }
   (int mipmaps texture-mipmaps)
   (int format texture-format))
 
+(define-foreign-record-type (RenderTexture* "struct RenderTexture")
+  (constructor: make-rendertexture)
+  (destructor: free-rendertexture)
+  (unsigned-int id rendertexture-id)
+  ((struct Texture) texture rendertexture-texture)
+  ((struct Texture) depth rendertexture-depth))
+
 (define-foreign-record-type (Camera2D* "struct Camera2D")
   (constructor: make-camera2d)
   (destructor: free-camera2d)
@@ -339,6 +346,7 @@ void FromVector3(float * x, Vector3 v) { x[0]=v.x; x[1]=v.y; x[2]=v.z; }
 (define get-screen-width (foreign-lambda int "GetScreenWidth"))
 (define get-screen-height (foreign-lambda int "GetScreenHeight"))
 (define window-should-close? (foreign-lambda bool "WindowShouldClose"))
+(define is-window-resized? (foreign-lambda bool "IsWindowResized"))
 
 ;; Drawing-related functions
 (define begin-drawing (foreign-lambda void "BeginDrawing"))
@@ -355,6 +363,11 @@ void FromVector3(float * x, Vector3 v) { x[0]=v.x; x[1]=v.y; x[2]=v.z; }
   (foreign-lambda* void ((int x)(int y)(int width)(int height))
 		   "BeginScissorMode(x, y, width, height);"))
 (define end-scissor-mode   (foreign-lambda void "EndScissorMode"))
+(define begin-texture-mode
+  (foreign-lambda* void (((c-pointer (struct "RenderTexture")) target))
+    "BeginTextureMode(*target);"))
+(define end-texture-mode
+  (foreign-lambda void "EndTextureMode"))
 
 ;; Timing-related functions
 (define set-target-fps (foreign-lambda void "SetTargetFPS" int))
@@ -398,6 +411,28 @@ void FromVector3(float * x, Vector3 v) { x[0]=v.x; x[1]=v.y; x[2]=v.z; }
 
 (define unload-texture
   (foreign-lambda* void ((Texture* texture)) "UnloadTexture(*texture);"))
+
+(define load-rendertexture-helper
+  (foreign-lambda* void ((RenderTexture* out) (int width) (int height)) "*out = LoadRenderTexture(width, height);"))
+(define (load-rendertexture width height)
+  (let ([rendertexture (make-rendertexture)])
+    (load-rendertexture-helper rendertexture width height)
+    rendertexture))
+
+(define unload-rendertexture
+  (foreign-lambda* void (((c-pointer (struct "RenderTexture")) rt))
+    "UnloadRenderTexture(*rt);"))
+
+(define set-texture-filter
+  (foreign-lambda* void (((c-pointer (struct "Texture")) texture) (int filter))
+    "SetTextureFilter(*texture, filter);"))
+
+(define TEXTURE_FILTER_POINT 0)
+(define TEXTURE_FILTER_BILINEAR 1)
+(define TEXTURE_FILTER_TRILINEAR 2)
+(define TEXTURE_FILTER_ANISOTROPIC_4x 3)
+(define TEXTURE_FILTER_ANISOTROPIC_8x 4)
+(define TEXTURE_FILTER_ANISOTROPIC_16x 5)
 
 ;; Basic shapes drawing functions
 (define draw-pixel 
