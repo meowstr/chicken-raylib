@@ -1,6 +1,4 @@
-(module text-font-loading *
-
-(import scheme chicken.base srfi-1 srfi-4 raylib)
+(import scheme chicken.memory chicken.base srfi-1 srfi-4 raylib)
 
 (init-window 800 450 "raylib [core] example - font loading")
 
@@ -11,29 +9,32 @@
 
 (define font-size (measure-text-ex font-ttf msg (font-base-size font-ttf) 1.0))
 
-(print "Font size: "font-size)
+(print "Font size: " font-size)
 
 (set-text-line-spacing 16)
 
 (set-target-fps 60)
 
 (let loop ()
-  (let ((use-ttf (key-down? KEY_SPACE)))
-    (with-drawing
-     (lambda ()
-       (clear-background RAYWHITE)
-       (draw-text "Hold SPACE to use TTF generated font" 20 20 20 LIGHTGRAY)
-       (let ((font   (if use-ttf font-bm font-ttf))
-	     (color  (if use-ttf MAROON LIME)))
-       (draw-text-ex font msg (make-vec2 20.0 100.0)(font-base-size font) 2 color)
-       (draw-text (if use-ttf
-		      "Using BMFfont (Anglecode) imported"
-		      "Using TTF font generated")
-		  20 (- (get-screen-height) 30) 20 GRAY))))
-    (unless (window-should-close?)
+  (let ((use-ttf (is-key-down KEY_SPACE)))
+    (begin-drawing)
+    (clear-background RAYWHITE)
+    (draw-text "Hold SPACE to use TTF generated font" 20 20 20 LIGHTGRAY)
+    (let ((font   (if use-ttf font-bm font-ttf))
+          (color  (if use-ttf MAROON LIME)))
+      (draw-text-ex font msg #f32(20.0 100.0) (font-base-size font) 2 color)
+      (draw-text (if use-ttf
+                   "Using BMFfont (Anglecode) imported"
+                   "Using TTF font generated")
+                 20 (- (get-screen-height) 30) 20 GRAY))
+    (end-drawing)
+    (unless (window-should-close)
       (loop))))
 
 (unload-font font-bm)
 (unload-font font-ttf)
+
+(free font-bm)
+(free font-ttf)
+
 (close-window)
-)

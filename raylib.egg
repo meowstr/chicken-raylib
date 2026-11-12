@@ -1,9 +1,8 @@
 ((author "Meowster")
  (synopsis "Bindings for raylib: A simple and easy-to-use library to enjoy videogames programming")
- (version "1.4.0")
+ (version "2.0.0")
  (license "MIT")
  (category graphics)
- (dependencies foreigners)
  (components
    (extension raylib
      (custom-build "build.sh"))))

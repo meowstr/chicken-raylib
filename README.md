@@ -1,4 +1,4 @@
-# raylib 6.0 in CHICKEN Scheme!
+# raylib 6 in CHICKEN Scheme!
 
 This is the official repository for the `raylib` egg! Refer to the egg's wiki for documentation:
 https://wiki.call-cc.org/eggref/5/raylib
@@ -28,26 +28,26 @@ replacing `/usr/local/lib/libraylib.a` with the path to your static raylib binar
 (init-window 800 450 "raylib [core] example - basic window")
 
 (let loop ()
-  (with-drawing
-   (lambda ()
-     (clear-background RAYWHITE)
-     (draw-text "Congrats! You created your first window!"
-                190
-                200
-                20
-                LIGHTGRAY)))
-  (unless (window-should-close?)
+  (begin-drawing)
+  (clear-background RAYWHITE)
+  (draw-text "Congrats! You created your first window!" 190 200 20 GRAY)
+  (end-drawing)
+  (unless (window-should-close)
     (loop)))
 
 (close-window)
 ```
-
 ## TODO
-- [ ] Bind all the declarations in raylib.h
-- [ ] Add more idiomatic wrappers
-- [x] Improve installation process (search for raylib properly and perhaps install raylib locally for the user)
+- [ ] Bind all the declarations in raylib.h: only variadic and callback functions left to implement
 - [ ] Add more examples
 - [ ] Benchmark and investigate performance bottlenecks
 
+## Recent Changes
+I've decided to automate binding all these function with `bind`. To preserve the SRFI-4 vector conversions for Vector/Color/Matrix and friends, a foreign transformer is passed to `bind` that handles all the casting and allocation. It should work exactly as it did before, but of course automated now! A few things missing include function callbacks, variadic functions (TraceLog, TextFormat), and struct array fields (e.g. VrStereoConfig).
+
+Constructors for the SRFI-4 raylib primitives (e.g. `make-color`, `make-vector2`) no longer exist. Use the SRFI-4 constructors instead (e.g. `u8vector` `f32vector`).
+
+Helper macros `with-drawing` no longer exist. Have a look at `old-raylib.scm` if you want to copy-paste them into your project.
+
 ## Contribute
-Pull requests are welcome!
+Pull requests are welcome! Thank you to everyone so far!
