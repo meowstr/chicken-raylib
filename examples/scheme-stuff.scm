@@ -5,6 +5,7 @@
 
 ;;;;; using functions with parameters of type (the srfi-4 types):
 ;;;;; Vector2 Vector3 Vector4 Quaternion Matrix Rectangle Color
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; in raylib.h:
 ;; bool CheckCollisionCircleRec(Vector2 center, float radius, Rectangle rec);
@@ -29,12 +30,14 @@
 (color-lerp #u8(0 0 0 255) #u8(5 5 5 255) 0.7) ;; returns a u8vector (don't free it!)
 
 ;;;;; variadic functions trace-log and text-format:
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (trace-log LOG_INFO "let me log this!") ;; not binded variadic, only 2 args (use chicken.format)
 
 (text-format "~S ~S!" "hi" "guys") ;; actually binded to chicken.format
 
 ;;;;; handling most structs
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; in raylib.h:
 ;; typedef struct Camera2D {
@@ -66,9 +69,7 @@
 
 ;;;;; handling structs with array fields
 ;;;;; NOTE: array fields aren't included in the struct constructor because of their nature
-
-;; allocates the struct and returns a foreign pointer (remember to free)
-(define config (make-vr-stereo-config)) 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; in raylib.h:
 ;; typedef struct VrStereoConfig {
@@ -81,6 +82,9 @@
 ;;     float scale[2];
 ;;     float scaleIn[2];
 ;; } VrStereoConfig;
+
+;; allocates the struct and returns a foreign pointer (remember to free)
+(define config (make-vr-stereo-config))
 
 ;; get the leftLensCenter
 (define ptr (vr-stereo-config-left-lens-center config))
