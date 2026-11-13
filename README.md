@@ -4,7 +4,7 @@ This is the official repository for the `raylib` egg! Refer to the egg's wiki fo
 https://wiki.call-cc.org/eggref/6/raylib
 
 ## Install
-Step 1: Install [raylib](https://github.com/raysan5/raylib) as a **SHARED** library (.so/.dll) on your system. See [install-raylib.sh](install-raylib.sh) for guidance. 
+Step 1: Install [raylib](https://github.com/raysan5/raylib) v6.2 as a **SHARED** library (.so/.dll) on your system. See [install-raylib.sh](install-raylib.sh) for guidance. 
 
 Step 2:
 ```chicken-install -sudo raylib```
