@@ -48,7 +48,7 @@ replacing `/usr/local/lib/libraylib.a` with the path to your static raylib binar
 (import chicken.memory)
 (import srfi-4)
 
-;;;;; using functions with parameters of type:
+;;;;; using functions with parameters of type (the srfi-4 types):
 ;;;;; Vector2 Vector3 Vector4 Quaternion Matrix Rectangle Color
 
 ;; in raylib.h:
@@ -71,7 +71,7 @@ replacing `/usr/local/lib/libraylib.a` with the path to your static raylib binar
 
 ;; Color is a u8vector:
 
-(color-lerp #u8(0 0 0 255) #u8(5 5 5 255) 0.7)
+(color-lerp #u8(0 0 0 255) #u8(5 5 5 255) 0.7) ;; returns a u8vector (don't free it!)
 
 ;;;;; variadic functions trace-log and text-format:
 
@@ -82,7 +82,8 @@ replacing `/usr/local/lib/libraylib.a` with the path to your static raylib binar
 ;;;;; handling structs with array fields
 ;;;;; NOTE: array fields aren't included in the struct constructor because of their nature
 
-(define config (make-vr-stereo-config))
+;; allocates a foreign pointer to the struct (remember to free)
+(define config (make-vr-stereo-config)) 
 
 ;; in raylib.h:
 ;; typedef struct VrStereoConfig {
@@ -113,6 +114,8 @@ replacing `/usr/local/lib/libraylib.a` with the path to your static raylib binar
             (make-list 16 2))) ;; projection[1] (4x4 matrix of all 2's)
   (vr-stereo-config-projection config))
 
+;; remember to free foreign memory (don't do this for the srfi-4 types tho like Vector2 and friends!)
+(free config)
 ```
 
 ## TODO
