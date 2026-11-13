@@ -113,7 +113,6 @@ replacing `/usr/local/lib/libraylib.a` with the path to your static raylib binar
 (free camera)
 
 ;;;;; handling structs with array fields
-;;;;; NOTE: array fields aren't included in the struct constructor because of their nature
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; in raylib.h:
@@ -129,6 +128,7 @@ replacing `/usr/local/lib/libraylib.a` with the path to your static raylib binar
 ;; } VrStereoConfig;
 
 ;; allocates the struct and returns a foreign pointer (remember to free)
+;; NOTE: array fields aren't included in the struct constructor because of their nature
 (define config (make-vr-stereo-config))
 
 ;; get the leftLensCenter

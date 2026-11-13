@@ -68,7 +68,6 @@
 (free camera)
 
 ;;;;; handling structs with array fields
-;;;;; NOTE: array fields aren't included in the struct constructor because of their nature
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; in raylib.h:
@@ -84,6 +83,7 @@
 ;; } VrStereoConfig;
 
 ;; allocates the struct and returns a foreign pointer (remember to free)
+;; NOTE: array fields aren't included in the struct constructor because of their nature
 (define config (make-vr-stereo-config))
 
 ;; get the leftLensCenter
