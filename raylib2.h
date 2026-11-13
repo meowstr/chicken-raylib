@@ -470,7 +470,7 @@ void OpenURL(const char *url);                            // Open URL with defau
 
 // Logging system
 void SetTraceLogLevel(int logLevel);                      // Set the current threshold (minimum) log level
-//void TraceLog(int logLevel, const char *text, ...);       // Show trace log messages (LOG_DEBUG, LOG_INFO, LOG_WARNING, LOG_ERROR...)
+void TraceLog(int logLevel, const char *text);       // Show trace log messages (LOG_DEBUG, LOG_INFO, LOG_WARNING, LOG_ERROR...)
 //void SetTraceLogCallback(TraceLogCallback callback);      // Set custom trace log
 
 // Memory management, using internal allocators

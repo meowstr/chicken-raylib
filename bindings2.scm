@@ -1992,6 +1992,9 @@
   (define set-trace-log-level
     (foreign-lambda* void ((integer a0)) "SetTraceLogLevel(a0);")))
 (begin
+  (define trace-log
+    (foreign-lambda* void ((integer a0) (c-string a1)) "TraceLog(a0 , a1);")))
+(begin
   (define mem-alloc
     (foreign-lambda*
       (c-pointer void)

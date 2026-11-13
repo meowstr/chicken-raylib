@@ -49,7 +49,7 @@ I've decided to automate binding all these functions with `bind`. To preserve th
 
 Constructors for the SRFI-4 raylib primitives (e.g. `make-color`, `make-vector2`) no longer exist. Use the SRFI-4 constructors instead (e.g. `u8vector` `f32vector` or `#f32(...)`).
 
-Helper macros `with-drawing` no longer exist. Have a look at `old-raylib.scm` if you want to copy-paste them into your project.
+Helper macros `with-drawing` and friends no longer exist. Have a look at `old-raylib.scm` if you want to copy-paste them into your project.
 
 ## Contribute
 Pull requests are welcome! Thank you to everyone so far!
