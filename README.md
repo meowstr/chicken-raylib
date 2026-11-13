@@ -1,4 +1,4 @@
-# raylib 6 in CHICKEN Scheme!
+# raylib 6.2 in CHICKEN Scheme!
 
 This is the official repository for the `raylib` egg! Refer to the egg's wiki for documentation:
 https://wiki.call-cc.org/eggref/6/raylib
@@ -45,9 +45,9 @@ replacing `/usr/local/lib/libraylib.a` with the path to your static raylib binar
 - [ ] Benchmark and investigate performance bottlenecks
 
 ## Recent Changes
-I've decided to automate binding all these function with `bind`. To preserve the SRFI-4 vector conversions for Vector/Color/Matrix and friends, a foreign transformer is passed to `bind` that handles all the casting and allocation. It should work exactly as it did before, but of course automated now! A few things missing include function callbacks, variadic functions (TraceLog, TextFormat), and struct array fields (e.g. VrStereoConfig).
+I've decided to automate binding all these functions with `bind`. To preserve the SRFI-4 vector conversions for Vector/Color/Matrix and friends, a foreign transformer is passed to `bind` that handles all the casting and allocation. It should work exactly as it did before, but of course automated now! A few things missing include function callbacks, variadic functions (TraceLog, TextFormat), and struct array fields (e.g. VrStereoConfig).
 
-Constructors for the SRFI-4 raylib primitives (e.g. `make-color`, `make-vector2`) no longer exist. Use the SRFI-4 constructors instead (e.g. `u8vector` `f32vector`).
+Constructors for the SRFI-4 raylib primitives (e.g. `make-color`, `make-vector2`) no longer exist. Use the SRFI-4 constructors instead (e.g. `u8vector` `f32vector` or `#f32(...)`).
 
 Helper macros `with-drawing` no longer exist. Have a look at `old-raylib.scm` if you want to copy-paste them into your project.
 
