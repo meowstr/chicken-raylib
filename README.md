@@ -79,10 +79,40 @@ replacing `/usr/local/lib/libraylib.a` with the path to your static raylib binar
 
 (text-format "~S ~S!" "hi" "guys") ;; actually binded to chicken.format
 
+;;;;; handling most structs
+
+;; in raylib.h:
+;; typedef struct Camera2D {
+;;     Vector2 offset;
+;;     Vector2 target;
+;;     float rotation;
+;;     float zoom;
+;; } Camera2D;
+
+;; allocates the struct and returns a foreign pointer (remember to free)
+(define camera 
+  (make-camera2d
+    #f32(10 10)
+    #f32(0 0)
+    0
+    1))
+
+;; field getters 
+(camera2d-target camera) ;; returns f32vector
+
+;; field setters
+(set! (camera2d-target camera) #f32(1 1))
+
+;; if you have the miscmacros egg you can do things like (srfi-17 setter power!):
+;; (modify! (camera2d-rotation camera) add1)
+
+;; free the foreign pointer (don't do this for the srfi-4 types!)
+(free camera)
+
 ;;;;; handling structs with array fields
 ;;;;; NOTE: array fields aren't included in the struct constructor because of their nature
 
-;; allocates a foreign pointer to the struct (remember to free)
+;; allocates the struct and returns a foreign pointer (remember to free)
 (define config (make-vr-stereo-config)) 
 
 ;; in raylib.h:
