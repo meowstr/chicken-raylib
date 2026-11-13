@@ -30,13 +30,15 @@ replacing `/usr/local/lib/libraylib.a` with the path to your static raylib binar
 (let loop ()
   (begin-drawing)
   (clear-background RAYWHITE)
-  (draw-text "Congrats! You created your first window!" 190 200 20 GRAY)
+  (draw-rectangle-rec #f32(10 10 780 430) BLUE) ; pass srfi-4 vector as a Rectangle!
+  (draw-text "Congrats! You created your first window!" 190 200 20 LIGHTGRAY)
   (end-drawing)
   (unless (window-should-close)
     (loop)))
 
 (close-window)
 ```
+
 ## TODO
 - [ ] Bind all the declarations in raylib.h: only variadic and callback functions left to implement
 - [ ] Add more examples
