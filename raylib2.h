@@ -176,7 +176,7 @@ typedef struct MaterialMap {
 typedef struct Material {
     Shader shader;          // Material shader
     MaterialMap *maps;      // Material maps array (MAX_MATERIAL_MAPS)
-    //float params[4];        // Material generic parameters (if required)
+    //TODO: float params[4];        // Material generic parameters (if required)
 } Material;
 
 // Transform, vertex transformation data
@@ -191,7 +191,7 @@ typedef Transform *ModelAnimPose;
 
 // Bone, skeletal animation bone
 typedef struct BoneInfo {
-    //char name[32];          // Bone name
+    //TODO: char name[32];          // Bone name
     int parent;             // Bone parent
 } BoneInfo;
 
@@ -222,7 +222,7 @@ typedef struct Model {
 
 // ModelAnimation, contains a full animation sequence
 typedef struct ModelAnimation {
-    //char name[32];          // Animation name
+    //TODO: char name[32];          // Animation name
 
     unsigned int boneCount; // Number of bones (per pose)
     int keyframeCount;      // Number of animation key frames
@@ -298,13 +298,13 @@ typedef struct VrDeviceInfo {
     float eyeToScreenDistance;      // Distance between eye and display in meters
     float lensSeparationDistance;   // Lens separation distance in meters
     float interpupillaryDistance;   // IPD (distance between pupils) in meters
-    //float lensDistortionValues[4];  // Lens distortion constant parameters
+    //TODO: float lensDistortionValues[4];  // Lens distortion constant parameters
     //float chromaAbCorrection[4];    // Chromatic aberration correction parameters
 } VrDeviceInfo;
 
 // VrStereoConfig, VR stereo rendering configuration for simulator
 typedef struct VrStereoConfig {
-    //Matrix projection[2];           // VR projection matrices (per eye)
+    ///TODO: Matrix projection[2];           // VR projection matrices (per eye)
     //Matrix viewOffset[2];           // VR view offset matrices (per eye)
     //float leftLensCenter[2];        // VR left lens center
     //float rightLensCenter[2];       // VR right lens center
@@ -324,7 +324,7 @@ typedef struct FilePathList {
 typedef struct AutomationEvent {
     unsigned int frame;             // Event frame
     unsigned int type;              // Event type (AutomationEventType)
-    //int params[4];                  // Event parameters (if required)
+    //TODO: int params[4];                  // Event parameters (if required)
 } AutomationEvent;
 
 // Automation event list

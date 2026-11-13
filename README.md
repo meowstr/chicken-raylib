@@ -40,12 +40,12 @@ replacing `/usr/local/lib/libraylib.a` with the path to your static raylib binar
 ```
 
 ## TODO
-- [ ] Bind all the declarations in raylib.h: only variadic and callback functions left to implement
+- [x] Bind all the declarations in raylib.h: everything but callbacks
 - [ ] Add more examples
 - [ ] Benchmark and investigate performance bottlenecks
 
 ## Recent Changes
-I've decided to automate binding all these functions with `bind`. To preserve the SRFI-4 vector conversions for Vector/Color/Matrix and friends, a foreign transformer is passed to `bind` that handles all the casting and allocation. It should work exactly as it did before, but of course automated now! A few things missing include function callbacks, variadic functions (TraceLog, TextFormat), and struct array fields (e.g. VrStereoConfig).
+I've decided to automate binding all these functions with `bind`. To preserve the SRFI-4 vector conversions for Vector/Color/Matrix and friends, a foreign transformer is passed to `bind` that handles all the casting and allocation. It should work exactly as it did before, but of course automated now! Only things missing are the callback related raylib functions because C callbacks are notoriously scary in CHICKEN scheme. See [wiki](https://wiki.call-cc.org/man/6/Module%20(chicken%20foreign)#callbacks) for info.
 
 Constructors for the SRFI-4 raylib primitives (e.g. `make-color`, `make-vector2`) no longer exist. Use the SRFI-4 constructors instead (e.g. `u8vector` `f32vector` or `#f32(...)`).
 
