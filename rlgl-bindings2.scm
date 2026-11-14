@@ -200,11 +200,6 @@
      (integer drawCounter)
      (float currentDepth))
     "struct rlRenderBatch *tmp_ =  (struct rlRenderBatch *)C_malloc(sizeof(struct rlRenderBatch));\ntmp_->bufferCount = bufferCount;\ntmp_->currentBuffer = currentBuffer;\ntmp_->vertexBuffer = vertexBuffer;\ntmp_->draws = draws;\ntmp_->drawCounter = drawCounter;\ntmp_->currentDepth = currentDepth;\nreturn(tmp_);;\n"))
-(define make-matrix
-  (foreign-lambda*
-    (c-pointer (struct "Matrix"))
-    ()
-    "struct Matrix *tmp_ =  (struct Matrix *)C_malloc(sizeof(struct Matrix));\nreturn(tmp_);;\n"))
 (begin
   (define rl-matrix-mode
     (foreign-lambda* void ((integer a0)) "rlMatrixMode(a0);")))
