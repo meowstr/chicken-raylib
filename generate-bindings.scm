@@ -20,7 +20,8 @@
                   ("Rectangle" f32vector 4)
                   ))
   (define (transform-arg arg)
-    (define a (and (string? (first arg)) (assoc (first arg) types string=?)))
+    (define a (and (pair? (first arg)) (eqv? (caar arg) 'struct) 
+                   (assoc (second (first arg)) types string=?)))
     (cond
       ;; convert listed type into srfi-4 equivalents
       (a 
@@ -53,7 +54,8 @@
     (define arg-transform (map transform-arg args))
     (define new-args (map first arg-transform))
     (define new-body (replace-body-arg body (map second arg-transform)))
-    (define ret-assoc (and (string? ret) (assoc ret types string=?)))
+    (define ret-assoc (and (pair? ret) (eqv? (car ret) 'struct) 
+                           (assoc (second ret) types string=?)))
     (cond
       ;; handle srfi-4 vector return values
       (ret-assoc
@@ -95,21 +97,34 @@
 (bind-options mutable-fields: #t)
 (bind-options export-constants: #t)
 
-;; leave constants capitalized
 (call-with-output-file 
   "bindings1.scm"
   (lambda (file)
-    (for-each (cut pp <> file) 
-              ;; un-rename all the symbols and clean up
-              (cdr (strip-syntax (expand (syntax (bind-file "raylib1.h")))))
-              )))
+    (for-each 
+      (cut pp <> file) 
+      ;; un-rename all the symbols and clean up
+      (cdr (strip-syntax (expand (syntax (bind-file "raylib1.h")))))
+      )))
 
-;; enable schemey names for everything else
+;; use different pattern for raymath
+;(bind-rename/pattern "([a-z0-9])([A-Z])" "\\1-\\2")
 (bind-options default-renaming: "")
+
 (call-with-output-file 
   "bindings2.scm"
   (lambda (file)
-    (for-each (cut pp <> file) 
-              ;; un-rename all the symbols and clean up
-              (cdr (strip-syntax (expand (syntax (bind-file "raylib2.h")))))
-              )))
+    (for-each 
+      (cut pp <> file) 
+      ;; un-rename all the symbols and clean up
+      (cdr (strip-syntax (expand (syntax (bind-file "raylib2.h")))))
+      )))
+
+;; for some reason bind doesnt let u reset the rename patterns
+;(call-with-output-file 
+;  "raymath-bindings.scm"
+;  (lambda (file)
+;    (for-each 
+;      (cut pp <> file) 
+;      ;; un-rename all the symbols and clean up
+;      (cdr (strip-syntax (expand (syntax (bind-file "raymath1.h")))))
+;      )))

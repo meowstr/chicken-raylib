@@ -5,4 +5,7 @@
  (category graphics)
  (components
    (extension raylib
-     (custom-build "build.sh"))))
+     (custom-build "build.sh"))
+   (extension raymath
+     (custom-build "build-raymath.sh"))
+     ))

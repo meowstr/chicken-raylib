@@ -154,6 +154,7 @@ replacing `/usr/local/lib/libraylib.a` with the path to your static raylib binar
 
 ## TODO
 - [x] Bind all the declarations in raylib.h: everything but callbacks
+- [x] Bind all the declarations in raymath.h
 - [ ] Add more examples
 - [ ] Benchmark and investigate performance bottlenecks
 

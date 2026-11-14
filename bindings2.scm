@@ -332,12 +332,12 @@
 (define font-recs
   (getter-with-setter
     (foreign-lambda*
-      (c-pointer "Rectangle")
+      (c-pointer (struct "Rectangle"))
       (((c-pointer (struct "Font")) s))
       "return(s->recs);")
     (foreign-lambda*
       void
-      (((c-pointer (struct "Font")) s) ((c-pointer "Rectangle") x))
+      (((c-pointer (struct "Font")) s) ((c-pointer (struct "Rectangle")) x))
       "s->recs = x;")))
 (define font-glyphs
   (getter-with-setter
@@ -356,7 +356,7 @@
      (integer glyphCount)
      (integer glyphPadding)
      ((c-pointer (struct "Texture")) texture)
-     ((c-pointer "Rectangle") recs)
+     ((c-pointer (struct "Rectangle")) recs)
      ((c-pointer (struct "GlyphInfo")) glyphs))
     "struct Font *tmp_ =  (struct Font *)C_malloc(sizeof(struct Font));\ntmp_->baseSize = baseSize;\ntmp_->glyphCount = glyphCount;\ntmp_->glyphPadding = glyphPadding;\ntmp_->texture = *texture;\ntmp_->recs = recs;\ntmp_->glyphs = glyphs;\nreturn(tmp_);;\n"))
 (define camera3d-position
@@ -783,14 +783,14 @@
         ((foreign-lambda*
            void
            ((f32vector out) ((c-pointer (struct "Transform")) s))
-           "*((Quaternion*)out) = s->rotation;\n")
+           "*((Vector4*)out) = s->rotation;\n")
          out
          s)
         out))
     (foreign-lambda*
       void
       (((c-pointer (struct "Transform")) s) (f32vector x))
-      "s->rotation = *((Quaternion*)x);")))
+      "s->rotation = *((Vector4*)x);")))
 (define transform-scale
   (getter-with-setter
     (lambda (s)
@@ -810,7 +810,7 @@
   (foreign-lambda*
     (c-pointer (struct "Transform"))
     ((f32vector translation) (f32vector rotation) (f32vector scale))
-    "struct Transform *tmp_ =  (struct Transform *)C_malloc(sizeof(struct Transform));\ntmp_->translation = *((Vector3*)translation);\ntmp_->rotation = *((Quaternion*)rotation);\ntmp_->scale = *((Vector3*)scale);\nreturn(tmp_);;\n"))
+    "struct Transform *tmp_ =  (struct Transform *)C_malloc(sizeof(struct Transform));\ntmp_->translation = *((Vector3*)translation);\ntmp_->rotation = *((Vector4*)rotation);\ntmp_->scale = *((Vector3*)scale);\nreturn(tmp_);;\n"))
 (define bone-info-parent
   (getter-with-setter
     (foreign-lambda*
@@ -954,12 +954,12 @@
 (define model-bone-matrices
   (getter-with-setter
     (foreign-lambda*
-      (c-pointer "Matrix")
+      (c-pointer (struct "Matrix"))
       (((c-pointer (struct "Model")) s))
       "return(s->boneMatrices);")
     (foreign-lambda*
       void
-      (((c-pointer (struct "Model")) s) ((c-pointer "Matrix") x))
+      (((c-pointer (struct "Model")) s) ((c-pointer (struct "Matrix")) x))
       "s->boneMatrices = x;")))
 (define make-model
   (foreign-lambda*
@@ -972,7 +972,7 @@
      ((c-pointer integer) meshMaterial)
      ((c-pointer (struct "ModelSkeleton")) skeleton)
      ((c-pointer (struct "Transform")) currentPose)
-     ((c-pointer "Matrix") boneMatrices))
+     ((c-pointer (struct "Matrix")) boneMatrices))
     "struct Model *tmp_ =  (struct Model *)C_malloc(sizeof(struct Model));\ntmp_->transform = *((Matrix*)transform);\ntmp_->meshCount = meshCount;\ntmp_->materialCount = materialCount;\ntmp_->meshes = meshes;\ntmp_->materials = materials;\ntmp_->meshMaterial = meshMaterial;\ntmp_->skeleton = *skeleton;\ntmp_->currentPose = currentPose;\ntmp_->boneMatrices = boneMatrices;\nreturn(tmp_);;\n"))
 (define model-animation-bone-count
   (getter-with-setter
@@ -2566,7 +2566,7 @@
   (define draw-line-strip
     (foreign-lambda*
       void
-      (((c-pointer "Vector2") a0) (integer a1) (u8vector a2))
+      (((c-pointer (struct "Vector2")) a0) (integer a1) (u8vector a2))
       "DrawLineStrip(a0 , a1 , *((Color*)a2));")))
 (begin
   (define draw-line-bezier
@@ -2613,13 +2613,13 @@
   (define draw-triangle-fan
     (foreign-lambda*
       void
-      (((c-pointer "Vector2") a0) (integer a1) (u8vector a2))
+      (((c-pointer (struct "Vector2")) a0) (integer a1) (u8vector a2))
       "DrawTriangleFan(a0 , a1 , *((Color*)a2));")))
 (begin
   (define draw-triangle-strip
     (foreign-lambda*
       void
-      (((c-pointer "Vector2") a0) (integer a1) (u8vector a2))
+      (((c-pointer (struct "Vector2")) a0) (integer a1) (u8vector a2))
       "DrawTriangleStrip(a0 , a1 , *((Color*)a2));")))
 (begin
   (define draw-rectangle
@@ -2867,31 +2867,46 @@
   (define draw-spline-linear
     (foreign-lambda*
       void
-      (((c-pointer "Vector2") a0) (integer a1) (float a2) (u8vector a3))
+      (((c-pointer (struct "Vector2")) a0)
+       (integer a1)
+       (float a2)
+       (u8vector a3))
       "DrawSplineLinear(a0 , a1 , a2 , *((Color*)a3));")))
 (begin
   (define draw-spline-basis
     (foreign-lambda*
       void
-      (((c-pointer "Vector2") a0) (integer a1) (float a2) (u8vector a3))
+      (((c-pointer (struct "Vector2")) a0)
+       (integer a1)
+       (float a2)
+       (u8vector a3))
       "DrawSplineBasis(a0 , a1 , a2 , *((Color*)a3));")))
 (begin
   (define draw-spline-catmull-rom
     (foreign-lambda*
       void
-      (((c-pointer "Vector2") a0) (integer a1) (float a2) (u8vector a3))
+      (((c-pointer (struct "Vector2")) a0)
+       (integer a1)
+       (float a2)
+       (u8vector a3))
       "DrawSplineCatmullRom(a0 , a1 , a2 , *((Color*)a3));")))
 (begin
   (define draw-spline-bezier-quadratic
     (foreign-lambda*
       void
-      (((c-pointer "Vector2") a0) (integer a1) (float a2) (u8vector a3))
+      (((c-pointer (struct "Vector2")) a0)
+       (integer a1)
+       (float a2)
+       (u8vector a3))
       "DrawSplineBezierQuadratic(a0 , a1 , a2 , *((Color*)a3));")))
 (begin
   (define draw-spline-bezier-cubic
     (foreign-lambda*
       void
-      (((c-pointer "Vector2") a0) (integer a1) (float a2) (u8vector a3))
+      (((c-pointer (struct "Vector2")) a0)
+       (integer a1)
+       (float a2)
+       (u8vector a3))
       "DrawSplineBezierCubic(a0 , a1 , a2 , *((Color*)a3));")))
 (begin
   (define draw-spline-segment-linear
@@ -3081,7 +3096,7 @@
   (define check-collision-point-poly
     (foreign-lambda*
       bool
-      ((f32vector a0) ((c-pointer "Vector2") a1) (integer a2))
+      ((f32vector a0) ((c-pointer (struct "Vector2")) a1) (integer a2))
       "return(CheckCollisionPointPoly(*((Vector2*)a0) , a1 , a2));")))
 (begin
   (define check-collision-lines
@@ -3091,7 +3106,7 @@
        (f32vector a1)
        (f32vector a2)
        (f32vector a3)
-       ((c-pointer "Vector2") a4))
+       ((c-pointer (struct "Vector2")) a4))
       "return(CheckCollisionLines(*((Vector2*)a0) , *((Vector2*)a1) , *((Vector2*)a2) , *((Vector2*)a3) , a4));")))
 (begin
   (define get-collision-rec
@@ -3432,26 +3447,26 @@
 (begin
   (define load-image-colors
     (foreign-lambda*
-      (c-pointer "Color")
+      (c-pointer (struct "Color"))
       (((c-pointer (struct "Image")) a0))
       "return(LoadImageColors(*a0));")))
 (begin
   (define load-image-palette
     (foreign-lambda*
-      (c-pointer "Color")
+      (c-pointer (struct "Color"))
       (((c-pointer (struct "Image")) a0) (integer a1) (s32vector a2))
       "return(LoadImagePalette(*a0 , a1 , a2));")))
 (begin
   (define unload-image-colors
     (foreign-lambda*
       void
-      (((c-pointer "Color") a0))
+      (((c-pointer (struct "Color")) a0))
       "UnloadImageColors(a0);")))
 (begin
   (define unload-image-palette
     (foreign-lambda*
       void
-      (((c-pointer "Color") a0))
+      (((c-pointer (struct "Color")) a0))
       "UnloadImagePalette(a0);")))
 (begin
   (define get-image-alpha-border
@@ -3537,7 +3552,7 @@
     (foreign-lambda*
       void
       (((c-pointer (struct "Image")) a0)
-       ((c-pointer "Vector2") a1)
+       ((c-pointer (struct "Vector2")) a1)
        (integer a2)
        (u8vector a3))
       "ImageDrawLineStrip(a0 , a1 , a2 , *((Color*)a3));")))
@@ -3578,7 +3593,7 @@
     (foreign-lambda*
       void
       (((c-pointer (struct "Image")) a0)
-       ((c-pointer "Vector2") a1)
+       ((c-pointer (struct "Vector2")) a1)
        (integer a2)
        (u8vector a3))
       "ImageDrawTriangleFan(a0 , a1 , a2 , *((Color*)a3));")))
@@ -3587,7 +3602,7 @@
     (foreign-lambda*
       void
       (((c-pointer (struct "Image")) a0)
-       ((c-pointer "Vector2") a1)
+       ((c-pointer (struct "Vector2")) a1)
        (integer a2)
        (u8vector a3))
       "ImageDrawTriangleStrip(a0 , a1 , a2 , *((Color*)a3));")))
@@ -4165,7 +4180,7 @@
     (foreign-lambda*
       (c-pointer (struct "Image"))
       (((c-pointer (struct "GlyphInfo")) a0)
-       ((c-pointer (c-pointer "Rectangle")) a1)
+       ((c-pointer (c-pointer (struct "Rectangle"))) a1)
        (integer a2)
        (integer a3)
        (integer a4)
@@ -4520,7 +4535,7 @@
   (define draw-triangle-strip3d
     (foreign-lambda*
       void
-      (((c-pointer "Vector3") a0) (integer a1) (u8vector a2))
+      (((c-pointer (struct "Vector3")) a0) (integer a1) (u8vector a2))
       "DrawTriangleStrip3D(a0 , a1 , *((Color*)a2));")))
 (begin
   (define draw-cube
@@ -4792,7 +4807,7 @@
       void
       (((c-pointer (struct "Mesh")) a0)
        ((c-pointer (struct "Material")) a1)
-       ((c-pointer "Matrix") a2)
+       ((c-pointer (struct "Matrix")) a2)
        (integer a3))
       "DrawMeshInstanced(*a0 , *a1 , a2 , a3);")))
 (begin

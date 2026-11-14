@@ -48,6 +48,14 @@ typedef struct Rectangle {
 } Rectangle;
 */
 
+typedef struct Vector2 {} Vector2;
+typedef struct Vector3 {} Vector3;
+typedef struct Vector4 {} Vector4;
+typedef struct Matrix {} Matrix;
+typedef struct Color {} Color;
+typedef struct Rectangle {} Rectangle;
+typedef Vector4 Quaternion;
+
 // Image, pixel data stored in CPU memory (RAM)
 typedef struct Image {
     void *data;             // Image raw data
