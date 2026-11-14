@@ -6,6 +6,8 @@
  (components
    (extension raylib
      (custom-build "build.sh"))
+   (extension rlgl
+     (custom-build "build.sh"))
    (extension raymath
-     (custom-build "build-raymath.sh"))
+     (custom-build "build.sh"))
      ))

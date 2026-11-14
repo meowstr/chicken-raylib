@@ -97,13 +97,22 @@
 (bind-options mutable-fields: #t)
 (bind-options export-constants: #t)
 
+;(call-with-output-file 
+;  "bindings1.scm"
+;  (lambda (file)
+;    (for-each 
+;      (cut pp <> file) 
+;      ;; un-rename all the symbols and clean up
+;      (cdr (strip-syntax (expand (syntax (bind-file "raylib1.h")))))
+;      )))
+
 (call-with-output-file 
-  "bindings1.scm"
+  "rlgl-bindings1.scm"
   (lambda (file)
     (for-each 
       (cut pp <> file) 
       ;; un-rename all the symbols and clean up
-      (cdr (strip-syntax (expand (syntax (bind-file "raylib1.h")))))
+      (cdr (strip-syntax (expand (syntax (bind-file "rlgl1.h")))))
       )))
 
 ;; use different pattern for raymath
@@ -111,13 +120,22 @@
 (bind-options default-renaming: "")
 
 (call-with-output-file 
-  "bindings2.scm"
+  "rlgl-bindings2.scm"
   (lambda (file)
     (for-each 
       (cut pp <> file) 
       ;; un-rename all the symbols and clean up
-      (cdr (strip-syntax (expand (syntax (bind-file "raylib2.h")))))
+      (cdr (strip-syntax (expand (syntax (bind-file "rlgl2.h")))))
       )))
+
+;(call-with-output-file 
+;  "bindings2.scm"
+;  (lambda (file)
+;    (for-each 
+;      (cut pp <> file) 
+;      ;; un-rename all the symbols and clean up
+;      (cdr (strip-syntax (expand (syntax (bind-file "raylib2.h")))))
+;      )))
 
 ;; for some reason bind doesnt let u reset the rename patterns
 ;(call-with-output-file 
