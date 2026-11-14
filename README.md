@@ -1,7 +1,7 @@
 # raylib 6.2 in CHICKEN Scheme!
 
 This is the official repository for the `raylib` egg! Refer to the egg's wiki for documentation:
-https://wiki.call-cc.org/eggref/6/raylib
+https://wiki.call-cc.org/eggref/6/raylib. This binds everything in raylib.h (except callbacks), raymath.h and rlgl in the `raylib`, `raymath` and `rlgl` modules respectively.
 
 ## Install
 Step 1: Install [raylib](https://github.com/raysan5/raylib) v6.2 as a **SHARED** library (.so/.dll) on your system. See [install-raylib.sh](install-raylib.sh) for guidance. 
@@ -155,6 +155,7 @@ replacing `/usr/local/lib/libraylib.a` with the path to your static raylib binar
 ## TODO
 - [x] Bind all the declarations in raylib.h: everything but callbacks
 - [x] Bind all the declarations in raymath.h
+- [x] Bind all the declarations in rlgl.h
 - [ ] Add more examples
 - [ ] Benchmark and investigate performance bottlenecks
 
