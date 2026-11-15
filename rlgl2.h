@@ -1,3 +1,5 @@
+typedef struct Matrix {} Matrix;
+
 // Dynamic vertex buffers (position + texcoords + colors + indices arrays)
 typedef struct rlVertexBuffer {
     int elementCount;           // Number of elements in the buffer (QUADS)
@@ -37,8 +39,6 @@ typedef struct rlRenderBatch {
     int drawCounter;            // Draw calls counter
     float currentDepth;         // Current depth value for next draw
 } rlRenderBatch;
-
-typedef struct Matrix {} Matrix;
 
 void rlMatrixMode(int mode);                      // Choose the current matrix to be transformed
 void rlPushMatrix(void);                          // Push the current matrix to stack

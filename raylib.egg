@@ -5,9 +5,18 @@
  (category graphics)
  (components
    (extension raylib
-     (custom-build "build.sh"))
+     (custom-build "build.sh")
+     (source-dependencies "bindings1.scm" "bindings2.scm"))
    (extension rlgl
-     (custom-build "build.sh"))
+     (custom-build "build.sh")
+     (source-dependencies "rlgl-bindings1.scm" "rlgl-bindings2.scm"))
    (extension raymath
-     (custom-build "build.sh"))
-     ))
+     (custom-build "build.sh")
+     (source-dependencies "raymath-bindings.scm"))
+   (extension rcamera
+     (custom-build "build.sh")
+     (source-dependencies "rcamera-bindings.scm"))
+   (extension raygui
+     (custom-build "build.sh")
+     (source-dependencies "raygui-bindings1.scm" "raygui-bindings2.scm"))
+   ))
