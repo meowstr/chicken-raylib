@@ -204,10 +204,7 @@ END
 
 (define (load-mip-texture width height)
   ;; use an HDR texture :D
-  (define rt (load-render-texture-ex width height PIXELFORMAT_UNCOMPRESSED_R32G32B32A32))
-  (set-texture-filter (render-texture-texture rt) TEXTURE_FILTER_BILINEAR)
-  (set-texture-wrap (render-texture-texture rt) TEXTURE_WRAP_CLAMP)
-  rt)
+  (load-render-texture-ex width height PIXELFORMAT_UNCOMPRESSED_R32G32B32A32))
 
 (define mip-sizes
   (map 
@@ -219,7 +216,17 @@ END
 (define mips 
   (map (cut apply load-mip-texture <>) mip-sizes))
 
-(define (downsample mips sizes)
+;; NOTE: render-texture-texture returns a struct, meaning its unmanaged. keep the pointers
+(define mip-textures
+  (map render-texture-texture mips))
+
+(for-each 
+  (lambda (t)
+      (set-texture-filter t TEXTURE_FILTER_BILINEAR)
+      (set-texture-wrap t TEXTURE_WRAP_CLAMP))
+  mip-textures)
+
+(define (downsample mips textures sizes)
   (unless (< (length mips) 2)
     (begin-texture-mode (second mips))
     (clear-background BLACK)
@@ -230,7 +237,7 @@ END
       (make-locative (list->f32vector (first sizes)))
       SHADER_UNIFORM_VEC2)
     (draw-texture-pro
-      (render-texture-texture (first mips))
+      (first textures)
       (f32vector 0 0 (first (first sizes)) (- (second (first sizes))))
       (f32vector 0 0 (first (second sizes)) (second (second sizes)))
       #f32(0 0)
@@ -239,13 +246,13 @@ END
     (end-shader-mode)
     (end-texture-mode)))
 
-(define (upsample mips sizes)
+(define (upsample mips textures sizes)
   (unless (< (length mips) 2)
     (begin-texture-mode (second mips))
     (begin-shader-mode upsample-shader)
     (begin-blend-mode BLEND_ADDITIVE)
     (draw-texture-pro
-      (render-texture-texture (first mips))
+      (first textures)
       (f32vector 0 0 (first (first sizes)) (- (second (first sizes))))
       (f32vector 0 0 (first (second sizes)) (second (second sizes)))
       #f32(0 0)
@@ -257,9 +264,9 @@ END
 
 (define (do-bloom) 
   ;; downsample
-  (pair-for-each downsample mips mip-sizes)
+  (pair-for-each downsample mips mip-textures mip-sizes)
   ;; upsample
-  (pair-for-each upsample (reverse mips) (reverse mip-sizes)))
+  (pair-for-each upsample (reverse mips) (reverse mip-textures) (reverse mip-sizes)))
 
 (define (draw-scene emission?)
   (unless emission? (draw-fps 10 10)) ; no emission for fps
@@ -306,7 +313,7 @@ END
   ;; render first mip with exposure
   (begin-shader-mode exposure-shader)
   (draw-texture-rec
-    (render-texture-texture (first mips))
+    (first mip-textures)
     (f32vector 0 0 width (- height))
     #f32(0 0)
     WHITE)
