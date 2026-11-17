@@ -173,5 +173,22 @@ Constructors for the SRFI-4 raylib primitives (e.g. `make-color`, `make-vector2`
 
 Helper macros `with-drawing` and friends no longer exist. Have a look at `old-raylib.scm` if you want to copy-paste them into your project.
 
+Setter functions have been replaced with SRFI-17 `set!` procedures. So `(camera2d-position-set! a0 a1)` is now `(set! (camera2d-position a0) a1)` which now has the power of SRFI-17!
+
+## Memory Leak Debugging
+With so many functions that return unmanaged memory you are bound to have a leak. To check for leaks I've found this command useful:
+
+```
+ltrace -e malloc@raylib.so csi -s program.scm
+```
+
+and for stacktraces at the calls (only gives you stub numbers):
+
+```
+ltrace -w 10 -e malloc@raylib.so csi -s program.scm
+```
+
+
+
 ## Contribute
 Pull requests are welcome! Thank you to everyone so far!
