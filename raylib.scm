@@ -1,5 +1,5 @@
 (module raylib *
-  (import scheme.base)
+  (import scheme)
   (import chicken.foreign)
   (import chicken.base)
   (import chicken.format)

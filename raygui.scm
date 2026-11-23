@@ -1,5 +1,5 @@
 (module raygui *
-  (import scheme.base)
+  (import scheme)
   (import chicken.foreign)
   (import chicken.base)
   (import srfi-4)
