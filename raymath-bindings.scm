@@ -469,14 +469,14 @@
   (define vector3-length
     (foreign-lambda*
       float
-      (((const (struct "Vector3")) a0))
-      "return(Vector3Length(a0));")))
+      ((f32vector a0))
+      "return(Vector3Length(*((Vector3*)a0)));")))
 (begin
   (define vector3-length-sqr
     (foreign-lambda*
       float
-      (((const (struct "Vector3")) a0))
-      "return(Vector3LengthSqr(a0));")))
+      ((f32vector a0))
+      "return(Vector3LengthSqr(*((Vector3*)a0)));")))
 (begin
   (define vector3-dot-product
     (foreign-lambda*
